@@ -1,0 +1,31 @@
+name: Docker Image CI
+
+on: 
+  release:
+    types:
+      - published
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout release commit
+      uses: actions/checkout@v1
+      with:
+        ref: ${{ github.ref }}
+    
+    - name: Build and push tagged image to Docker Hub
+      uses: elgohr/Publish-Docker-Github-Action@2.9     
+      with:
+        name: tomfrench/liquidityburner
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        tag_names: true
+    
+    - name: Push image with latest tag to Docker Hub
+      uses: elgohr/Publish-Docker-Github-Action@2.9
+      with:
+        name: tomfrench/liquidityburner
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
