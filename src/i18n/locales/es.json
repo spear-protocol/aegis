@@ -1,0 +1,70 @@
+{
+  "es": {
+    "app_name": "Burner",
+    "about": "Acerca de",
+    "code": "Código",
+    "burn": "Quemar",
+    "show": "Mostrar",
+    "copy": "Copiar",
+    "create": "Crear",
+    "receive_title": "Recibir",
+    "send_to_address_title": "Enviar a la dirección",
+    "advance": "Avanzado",
+    "advance_title": "Avanzado",
+    "loading": "Cargando...",
+    "cancel": "Cancelar",
+    "done": "Listo",
+    "exchange_title": "Intercambiar",
+    "amount": "Monto",
+    "send": "Enviar",
+    "withdraw": "Retirar",
+    "request_funds_title": "Solicitar Fondos",
+    "request": "Solicitar",
+    "main_card": {
+      "receive": "Recibir",
+      "send": "Enviar",
+      "share": "Compartir"
+    },
+    "share": {
+      "copied": "URL copiado al portapapeles."
+    },
+    "send_to_address": {
+      "to_address": "Destinatario",
+      "send_amount": "Enviar monto",
+      "notice": "Sólo se puede enviar ",
+      "error": "Por favor ingresar dirección valida o ENS."
+    },
+    "send_by_scan": {
+      "try_again": "Por favor intenta de nuevo",
+      "take_photo": "Tomar foto",
+      "capture": "Capturar codigo QR:"
+    },
+    "more_buttons": {
+      "request": "Solicitar",
+      "exchange": "Intercambio"
+    },
+    "receive": {
+      "address_copied": "Dirección copiada"
+    },
+    "bridge": {
+      "title": "Bridge",
+      "warning": "Are you sure you want to withdraw to this wallet? Withdrawals can take up to 72 hours to complete. It might be safer to transfer to a more permanent wallet first."
+    },
+    "exchange": {
+      "insufficient_funds": "Fondos insufcientes"
+    },
+    "request_funds": {
+      "button": "Solicitar",
+      "amount": "Solicitar Cantidad"
+    },
+    "advanced": {
+      "to_qr": "Transformar en QR"
+    },
+    "burn_wallet": {
+      "burn_private_key_question": "Estás seguro que quieres quemar esta llave privada?",
+      "disclaimer": "No lo hagas! Perderás todos tus fondos!",
+      "cancel": "Cancelar",
+      "burn": "Quemarla!"
+    }
+  }
+}

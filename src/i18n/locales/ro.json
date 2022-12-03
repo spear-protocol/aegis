@@ -1,0 +1,70 @@
+{
+  "ro": {
+    "app_name": "Burner",
+    "about": "Despre",
+    "code": "Cod",
+    "burn": "Distruge PK",
+    "show": "Arată PK",
+    "copy": "Copiază PK",
+    "create": "Creează",
+    "receive_title": "Primește",
+    "send_to_address_title": "Trimite spre Adresă",
+    "advance": "Avansat",
+    "advance_title": "Avansat",
+    "loading": "Se Încarcă...",
+    "cancel": "Anulează",
+    "done": "Gata",
+    "exchange_title": "Schimbă",
+    "amount": "Sumă",
+    "send": "Trimite",
+    "withdraw": "Retrage",
+    "request_funds_title": "Solicită fonduri",
+    "request": "Solicită",
+    "main_card": {
+      "receive": "Primește",
+      "send": "Trimite",
+      "share": "Share"
+    },
+    "share": {
+      "copied": "Link copiat în clipboard"
+    },
+    "send_to_address": {
+      "to_address": "Spre Adresă",
+      "send_amount": "Trimite Sumă",
+      "notice": "Poți să trimiți doar ",
+      "error": "Te rog setează o adresă validă sau un cont ENS."
+    },
+    "send_by_scan": {
+      "try_again": "Te rog încearcă din nou",
+      "take_photo": "Fă o Poză",
+      "capture": "Capturează Codul QR:"
+    },
+    "more_buttons": {
+      "request": "Solicită",
+      "exchange": "Schimbă"
+    },
+    "receive": {
+      "address_copied": "Adresă copiată în clipboard"
+    },
+    "bridge": {
+      "title": "Bridge",
+      "warning": "Are you sure you want to withdraw to this wallet? Withdrawals can take up to 72 hours to complete. It might be safer to transfer to a more permanent wallet first."
+    },
+    "exchange": {
+      "insufficient_funds": "Fonduri Insuficiente"
+    },
+    "request_funds": {
+      "button": "Solicită",
+      "amount": "Solicită Sumă"
+    },
+    "advanced": {
+      "to_qr": "Spre QR"
+    },
+    "burn_wallet": {
+      "burn_private_key_question": "Ești sigur că vrei să distrugi această parolă?",
+      "disclaimer": "Nu o face! Vei pierde toate fondurile!",
+      "cancel": "Nu, Anulează",
+      "burn": "Distruge-o!"
+    }
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "pt": {
+    "app_name": "Burner",
+    "about": "Saber mais",
+    "code": "Código",
+    "burn": "Destruir PK",
+    "show": "Mostrar PK",
+    "copy": "Copiar PK",
+    "create": "Criar",
+    "receive_title": "Receber",
+    "send_to_address_title": "Enviar para Endereço",
+    "advance": "Avançadas",
+    "advance_title": "Opções Avançadas",
+    "loading": "Carregar...",
+    "cancel": "Cancelar",
+    "done": "Retroceder",
+    "exchange_title": "Converter",
+    "amount": "Montante",
+    "send": "Enviar",
+    "withdraw": "Levantar",
+    "request_funds_title": "Pedir fundos",
+    "request": "Pedir",
+    "main_card": {
+      "receive": "Receber",
+      "send": "Enviar",
+      "share": "Partilhar"
+    },
+    "share": {
+      "copied": "URL Copiado Para o Clipboard"
+    },
+    "send_to_address": {
+      "to_address": "Para Endereço",
+      "send_amount": "Enviar Montante",
+      "notice": "Apenas Podes Enviar ",
+      "error": "Por Favor Ponha um Endereço Válido ou ENS."
+    },
+    "send_by_scan": {
+      "try_again": "Por Favor Tenha Outra Vez",
+      "take_photo": "Tirar Foto",
+      "capture": "Escanear Código QR:"
+    },
+    "more_buttons": {
+      "request": "Pedir",
+      "exchange": "Converter"
+    },
+    "receive": {
+      "address_copied": "Endereço URL Copiado Para o Clipboard"
+    },
+    "bridge": {
+      "title": "Bridge",
+      "warning": "Are you sure you want to withdraw to this wallet? Withdrawals can take up to 72 hours to complete. It might be safer to transfer to a more permanent wallet first."
+    },
+    "exchange": {
+      "insufficient_funds": "Fundos Insuficientes"
+    },
+    "request_funds": {
+      "button": "Pedir",
+      "amount": "Pedir Montante"
+    },
+    "advanced": {
+      "to_qr": "Para QR"
+    },
+    "burn_wallet": {
+      "burn_private_key_question": "Tens a certeza que queres destruir esta private key?",
+      "disclaimer": "Não faças isto! Vais perder todos os fundos!",
+      "cancel": "Não, cancela",
+      "burn": "Destroi!"
+    }
+  }
+}

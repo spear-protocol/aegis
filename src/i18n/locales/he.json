@@ -1,0 +1,70 @@
+{
+  "he": {
+    "app_name": "Burner",
+    "about": "אודות",
+    "code": "קוד מקור",
+    "burn": "לשרוף PK",
+    "show": "להצג PK",
+    "copy": "להעתיק PK",
+    "create": "לייצר",
+    "receive_title": "קבל",
+    "send_to_address_title": "שלח לכתובת",
+    "advance": "מתקדם",
+    "advance_title": "הגדרות מתקדמות",
+    "loading": "טוען...",
+    "cancel": "ביטול",
+    "done": "סיום",
+    "exchange_title": "המרת מטבע",
+    "amount": "סכום",
+    "send": "לשלוח",
+    "withdraw": "משיכה",
+    "request_funds_title": "בקש כספים",
+    "request": "בקשה",
+    "main_card": {
+      "receive": "לקבל",
+      "send": "שלח",
+      "share": "לשתף"
+    },
+    "share": {
+      "copied": "הקישור הועתקה ללוח"
+    },
+    "send_to_address": {
+      "to_address": "לכתובת",
+      "send_amount": "שלח סכום",
+      "notice": "אתה יכול לשלוח רק ",
+      "error": "נא להזין כתובת חוקית או ENS."
+    },
+    "send_by_scan": {
+      "try_again": "אנא נסה שוב",
+      "take_photo": "צלם תמונה",
+      "capture": "QR לכידת קוד"
+    },
+    "more_buttons": {
+      "request": "בקשה",
+      "exchange": "המרת מטבע"
+    },
+    "receive": {
+      "address_copied": "הכתובת הועתקה ללוח"
+    },
+    "bridge": {
+      "title": "Bridge",
+      "warning": "Are you sure you want to withdraw to this wallet? Withdrawals can take up to 72 hours to complete. It might be safer to transfer to a more permanent wallet first."
+    },
+    "exchange": {
+      "insufficient_funds": "אין מספיק כסף"
+    },
+    "request_funds": {
+      "button": "בקשה",
+      "amount": "סכום בקשה"
+    },
+    "advanced": {
+      "to_qr": "QR ליצור"
+    },
+    "burn_wallet": {
+      "burn_private_key_question": "האם אתה בטוח שברצונך לצרוב את המפתח הפרט?",
+      "disclaimer": "אל תעשה את זה! תאבד את כל הכספים!",
+      "cancel": "לא, ביטול",
+      "burn": "לשרוף את זה!"
+    }
+  }
+}

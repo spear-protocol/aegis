@@ -1,0 +1,81 @@
+{
+  "en": {
+    "app_name": "Burner",
+    "create": "Create",
+    "receive_title": "Receive",
+    "advance": "Advanced",
+    "advance_title": "Advanced",
+    "loading": "Loading...",
+    "cancel": "Cancel",
+    "done": "Done",
+    "exchange_title": "Exchange",
+    "amount": "Amount",
+    "send": "Send",
+    "withdraw": "Withdraw",
+    "confirm_withdraw": "Confirm Withdrawal",
+    "main_card": {
+      "receive": "Receive",
+      "send": "Send",
+      "share": "Share",
+      "bridge": "Bridge",
+      "exchange": "Exchange",
+      "request": "Request"
+    },
+    "share": {
+      "copied": "URL copied to clipboard"
+    },
+    "send_to_address": {
+      "title": "Send",
+      "to_address": "To Address",
+      "send_amount": "Send Amount",
+      "notice": "You can only send ",
+      "error": "Please enter a valid address or ENS."
+    },
+    "send_by_scan": {
+      "try_again": "Please try again",
+      "take_photo": "Take Photo",
+      "capture": "Capture QR Code:"
+    },
+    "more_buttons": {
+      "request": "Request",
+      "exchange": "Exchange"
+    },
+    "receive": {
+      "address_copied": "Address copied to clipboard"
+    },
+    "bridge": {
+      "title": "Bridge",
+      "warning": "Are you sure you want to withdraw to this wallet? Withdrawals can take up to 72 hours to complete. It might be safer to transfer to a more permanent wallet first.",
+      "exceed_withdrawal_limit": "Insufficient withdrawal limit. Your limit will refresh within 72 hours.",
+      "zero_withdrawal": "Please choose an amount greater than 0",
+      "insufficient_funds": "Insufficient funds"
+    },
+    "exchange": {
+      "insufficient_funds": "Insufficient funds"
+    },
+    "request_funds": {
+      "title": "Request",
+      "button": "Request",
+      "amount": "Request Amount"
+    },
+    "advanced": {
+      "to_qr": "To QR",
+      "about": "About",
+      "code": "Code",
+      "burn": "Burn PK",
+      "show": "Show PK",
+      "copy": "Copy PK",
+      "create": "Create",
+      "private_key": "Private Key",
+      "create_account": "Create Account",
+      "learn_more": "Learn More",
+      "extra_tools": "Extra Tools"
+    },
+    "burn_wallet": {
+      "burn_private_key_question": "Are you sure you want to burn this private key?",
+      "disclaimer": "Don't do it! You will lose all funds!",
+      "cancel": "No, Cancel",
+      "burn": "Burn It!"
+    }
+  }
+}

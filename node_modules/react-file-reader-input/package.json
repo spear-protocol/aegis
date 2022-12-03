@@ -1,0 +1,60 @@
+{
+  "name": "react-file-reader-input",
+  "version": "2.0.0",
+  "description": "React file input component for complete control over styling and abstraction from file reading.",
+  "main": "./lib/index.js",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-es2015-classes": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-flow": "^6.23.0",
+    "babel-preset-react": "^6.24.1",
+    "browserify": "^16.0.0",
+    "flow": "^0.2.3",
+    "flow-bin": "^0.68.0",
+    "karma": "^2.0.0",
+    "karma-browserify": "^5.2.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-firefox-launcher": "^1.1.0",
+    "karma-mocha": "^1.3.0",
+    "mocha": "^5.0.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "watchify": "^3.10.0"
+  },
+  "peerDependencies": {
+    "react": "^15.0.0 || ^16.0.0",
+    "react-dom": "^15.0.0 || ^16.0.0"
+  },
+  "scripts": {
+    "build:lib": "babel --out-dir lib src",
+    "build:tests": "babel --out-file tests/test.js tests/test.es6",
+    "flow": "flow check",
+    "pretest": "npm run flow && npm run build:tests && npm run build:lib",
+    "test": "karma start ./tests/karma.conf.js",
+    "prepublishOnly": "npm run build:lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ngokevin/react-file-reader-input"
+  },
+  "keywords": [
+    "react",
+    "file",
+    "input",
+    "reader",
+    "component",
+    "react-component",
+    "filereader",
+    "file-reader",
+    "fake"
+  ],
+  "author": "Kevin Ngo <me@ngokevin.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ngokevin/react-file-reader-input/issues"
+  },
+  "homepage": "https://github.com/ngokevin/react-file-reader-input"
+}

@@ -1,0 +1,70 @@
+{
+  "de": {
+    "app_name": "Burner",
+    "about": "Über",
+    "code": "Code",
+    "burn": "PK verbrennen",
+    "show": "PK anzeigen",
+    "copy": "PK kopieren",
+    "create": "Erstellen",
+    "receive_title": "Empfangen",
+    "send_to_address_title": "An Adresse senden",
+    "advance": "Erweitert",
+    "advance_title": "Erweitert",
+    "loading": "Lade...",
+    "cancel": "Abbrechen",
+    "done": "Fertig",
+    "exchange_title": "Börse",
+    "amount": "Betrag",
+    "send": "Senden",
+    "withdraw": "Abheben",
+    "request_funds_title": "Mittel anfordern",
+    "request": "Anfrage",
+    "main_card": {
+      "receive": "Empfangen",
+      "send": "Senden",
+      "share": "Teilen"
+    },
+    "share": {
+      "copied": "URL wurde in die Zwischenablage kopiert"
+    },
+    "send_to_address": {
+      "to_address": "An Adresse",
+      "send_amount": "Betrag senden",
+      "notice": "Du kannst nur folgenden Betrag senden: ",
+      "error": "Bitte eine gültige Adresse oder ENS eingeben."
+    },
+    "send_by_scan": {
+      "try_again": "Bitte versuchen Sie es erneut",
+      "take_photo": "Foto machen",
+      "capture": "QR-Code erfassen:"
+    },
+    "more_buttons": {
+      "request": "Anfrage",
+      "exchange": "Börse"
+    },
+    "receive": {
+      "address_copied": "Adresse wurde in die Zwischenablage kopiert"
+    },
+    "bridge": {
+      "title": "Bridge",
+      "warning": "Are you sure you want to withdraw to this wallet? Withdrawals can take up to 72 hours to complete. It might be safer to transfer to a more permanent wallet first."
+    },
+    "exchange": {
+      "insufficient_funds": "Nicht genug Mittel"
+    },
+    "request_funds": {
+      "button": "Anfragen",
+      "amount": "Anzufragender Betrag"
+    },
+    "advanced": {
+      "to_qr": "Zu QR-Code"
+    },
+    "burn_wallet": {
+      "burn_private_key_question": "Sind Sie sich sicher, dass Sie diesen privaten Schlüssel verbrennen wollen?",
+      "disclaimer": "Tun Sie das nicht! Sie werden all ihr Guthaben verlieren!",
+      "cancel": "Nein, abbrechen",
+      "burn": "Verbrenn ihn!"
+    }
+  }
+}

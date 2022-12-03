@@ -1,0 +1,70 @@
+{
+  "fr": {
+    "app_name": "Burner",
+    "about": "à Propos",
+    "code": "Code",
+    "burn": "Brûle la PK",
+    "show": "Afficher la PK",
+    "copy": "Copier la PK",
+    "create": "Générer",
+    "receive_title": "Recevoir",
+    "send_to_address_title": "Envoyer à l'adresse",
+    "advance": "Avancé",
+    "advance_title": "Avancé",
+    "loading": "Chargement...",
+    "cancel": "Annuler",
+    "done": "Retour",
+    "exchange_title": "Convertir",
+    "amount": "Montant",
+    "send": "Envoyer",
+    "withdraw": "Retirer",
+    "request_funds_title": "Demander des fonds",
+    "request": "Demande",
+    "main_card": {
+      "receive": "Recevoir",
+      "send": "Envoyer",
+      "share": "Partager"
+    },
+    "share": {
+      "copied": "L'URL a été copiée dans le presse-papier"
+    },
+    "send_to_address": {
+      "to_address": "Envoyer à l'adresse",
+      "send_amount": "Envoyer Montant",
+      "notice": "Vous pouvez envoyer seulement ",
+      "error": "Entrez une adresse valide ou ENS, s'il vous plaît"
+    },
+    "send_by_scan": {
+      "try_again": "Veuillez réessayer",
+      "take_photo": "Prendre une photo",
+      "capture": "Scanner le code QR:"
+    },
+    "more_buttons": {
+      "request": "Demande",
+      "exchange": "Échange"
+    },
+    "receive": {
+      "address_copied": "L'adresse est copiée dans le presse-papier"
+    },
+    "bridge": {
+      "title": "Bridge",
+      "warning": "Are you sure you want to withdraw to this wallet? Withdrawals can take up to 72 hours to complete. It might be safer to transfer to a more permanent wallet first."
+    },
+    "exchange": {
+      "insufficient_funds": "fonds insuffisants"
+    },
+    "request_funds": {
+      "button": "Demande",
+      "amount": "Demande montant"
+    },
+    "advanced": {
+      "to_qr": "au QR"
+    },
+    "burn_wallet": {
+      "burn_private_key_question": "Êtes-vous sûr de vouloir détruire cette PK?",
+      "disclaimer": "Ne faites pas cela! Les fonds seront perdus!",
+      "cancel": "Non, annuler",
+      "burn": "Brûle-là!"
+    }
+  }
+}

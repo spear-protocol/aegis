@@ -1,0 +1,70 @@
+{
+  "ca": {
+    "app_name": "Burner",
+    "about": "Sobre",
+    "code": "Codi",
+    "burn": "Cremar PK",
+    "show": "Mostrar PK",
+    "copy": "Copiar PK",
+    "create": "Crear",
+    "receive_title": "Rebre",
+    "send_to_address_title": "Enviar a una Adreça",
+    "advance": "Avançat",
+    "advance_title": "Avançat",
+    "loading": "Carregant...",
+    "cancel": "Cancel·lar",
+    "done": "Fet",
+    "exchange_title": "Intercanviar",
+    "amount": "Quantitat",
+    "send": "Enviar",
+    "withdraw": "Retirar",
+    "request_funds_title": "Sol·licitar fons",
+    "request": "Sol·licitar",
+    "main_card": {
+      "receive": "Rebre",
+      "send": "Enviar",
+      "share": "Compartir"
+    },
+    "share": {
+      "copied": "URL copiada al porta-retalls"
+    },
+    "send_to_address": {
+      "to_address": "A l'adreça",
+      "send_amount": "Quantitat per enviar",
+      "notice": "Només pots enviar ",
+      "error": "Si us plau introdueix una adreça o ENS vàlida."
+    },
+    "send_by_scan": {
+      "try_again": "Si us plau torna a interntar-ho",
+      "take_photo": "Fer una fotografia",
+      "capture": "Capturar codi QR:"
+    },
+    "more_buttons": {
+      "request": "Sol·licitar",
+      "exchange": "Intercanviar"
+    },
+    "receive": {
+      "address_copied": "Adreça copiada al porta-retalls"
+    },
+    "bridge": {
+      "title": "Bridge",
+      "warning": "Are you sure you want to withdraw to this wallet? Withdrawals can take up to 72 hours to complete. It might be safer to transfer to a more permanent wallet first."
+    },
+    "exchange": {
+      "insufficient_funds": "Fons insuficients"
+    },
+    "request_funds": {
+      "button": "Sol·licitar",
+      "amount": "Sol·licitar Quantitat"
+    },
+    "advanced": {
+      "to_qr": "A QR"
+    },
+    "burn_wallet": {
+      "burn_private_key_question": "N'estàs segur que vols cremar aquesta clau privada?",
+      "disclaimer": "No ho facis! Perdràs tots els fons!",
+      "cancel": "No, Cancel·lar",
+      "burn": "Crema-la!"
+    }
+  }
+}

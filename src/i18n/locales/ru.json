@@ -1,0 +1,70 @@
+{
+  "ru": {
+    "app_name": "Burner",
+    "about": "Сведения",
+    "code": "Исходный код",
+    "burn": "Сжечь приватный ключ",
+    "show": "Показать приватный ключ",
+    "copy": "Скопировать приватный ключ",
+    "create": "Создать",
+    "receive_title": "Получить",
+    "send_to_address_title": "Отправить на адрес",
+    "advance": "Продвинутые настройки",
+    "advance_title": "Продвинутые настройки",
+    "loading": "Загрузка...",
+    "cancel": "Отмена",
+    "done": "Готово",
+    "exchange_title": "Обмен",
+    "amount": "Сумма",
+    "send": "Отправить",
+    "withdraw": "Вывод средств",
+    "request_funds_title": "Запросить средства",
+    "request": "Запросить",
+    "main_card": {
+      "receive": "Получиь",
+      "send": "Отправить",
+      "share": "Поделиться"
+    },
+    "share": {
+      "copied": "Ссылка скопирована в буфер обмена"
+    },
+    "send_to_address": {
+      "to_address": "Адрес назначения",
+      "send_amount": "Сумма для отправления",
+      "notice": "Вы модете отправить только ",
+      "error": "Пожалуйста, введите допустимый адрес или ENS."
+    },
+    "send_by_scan": {
+      "try_again": "Пожалуйста, попробуйте снова",
+      "take_photo": "Сделать фото",
+      "capture": "Сканировать QR код:"
+    },
+    "more_buttons": {
+      "request": "Запросить",
+      "exchange": "Обмен"
+    },
+    "receive": {
+      "address_copied": "Адрес скопирован в буфер обмена"
+    },
+    "bridge": {
+      "title": "Bridge",
+      "warning": "Are you sure you want to withdraw to this wallet? Withdrawals can take up to 72 hours to complete. It might be safer to transfer to a more permanent wallet first."
+    },
+    "exchange": {
+      "insufficient_funds": "Недостаточно средств"
+    },
+    "request_funds": {
+      "button": "Запросить",
+      "amount": "Сумма запроса"
+    },
+    "advanced": {
+      "to_qr": "Сгенерировать QR-код"
+    },
+    "burn_wallet": {
+      "burn_private_key_question": "Вы уверены что хотите сжечь этот приватный ключ?",
+      "disclaimer": "Не делайте этого! Вы потеряете все средства!",
+      "cancel": "Нет, отмена",
+      "burn": "Сжечь его!"
+    }
+  }
+}
