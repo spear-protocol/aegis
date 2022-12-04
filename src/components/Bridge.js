@@ -2,6 +2,7 @@ import React from 'react'
 import { useHistory } from 'react-router-dom'
 
 import { nocust } from 'nocust-client'
+import web3 from 'web3'
 
 import i18n from '../i18n'
 
@@ -23,7 +24,6 @@ export default (props) => {
   //const nocust = useNocustClient()
   const history = useHistory()
   const tokens = useTokens(props.privateKey)
-  console.log('tokens Bridge', tokens)
   const eth = safeAccess(tokens, ['ETH']) || {}
   const token = safeAccess(tokens, [props.token]) || {}
   const balance = useAddressBalance(props.address, token.tokenAddress, props.privateKey)
@@ -56,8 +56,14 @@ export default (props) => {
         withdrawLimit={withdrawLimit}        
         deposit={async (amount) => {
           try {
-            //const txHash = await nocust.approveAndDeposit(props.address, amount, props.gasPrice, gasLimit, token.tokenAddress)
-            //console.log(amount)
+            if (token.tokenAddress != process.env.REACT_APP_HUB_CONTRACT_ADDRESS) {
+              const gasPriceVal = 20;
+              const approval = await nocust.approveDeposits({
+                address: props.address,                      // Account from which to make a deposit (its private key needs to be in the Web3 instance)
+                gasPrice: web3.utils.toWei(gasPriceVal.toString(),'gwei'),   // Gas price, 10 Gwei
+                token: token.tokenAddress,
+              }); 
+            }
             const txHash = await nocust.deposit({address: props.address, amount: Number(amount), gasPrice: props.gasPrice, gasLimit: gasLimit, token: token.tokenAddress})
             history.push('/liquidity/sending', { title: 'Sending ' + token.shortName + ' into the Liquidity Network...', subtitle: 'Tokens can take between 5-10 minutes to appear on the hub' })
             props.onSend(txHash)

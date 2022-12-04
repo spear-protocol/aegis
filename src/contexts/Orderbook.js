@@ -62,7 +62,7 @@ export function useOrderbook (buyTokenAddress, sellTokenAddress) {
     };
   }, []);
 
-  const eraNumber = useEraNumber()
+  //const eraNumber = useEraNumber()
   const [state, { update }] = useOrderbookContext()
   const orders = safeAccess(state, [buyTokenAddress, sellTokenAddress]) || []
 
@@ -77,7 +77,7 @@ export function useOrderbook (buyTokenAddress, sellTokenAddress) {
           update(buyTokenAddress, sellTokenAddress, {})
         })
     }
-  }, [eraNumber, buyTokenAddress, sellTokenAddress, update])
+  }, [buyTokenAddress, sellTokenAddress, update])
 
   return orders
 }

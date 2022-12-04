@@ -84,7 +84,7 @@ export default function Provider ({ web3, children }) {
 
   // Poll the hub to keep track of the Era number
   // Can then use it as a clock to avoid excessive requests to hub
-  useEffect(() => {
+/*   useEffect(() => {
     const test = () => {
       const { nocust } = state
       if (nocust) {
@@ -104,7 +104,7 @@ export default function Provider ({ web3, children }) {
     test()
     const intervalId = setInterval(test, 10000)
     return () => { clearInterval(intervalId) }
-  }, [state.nocust])
+  }, [state.nocust]) */
 
   return (
     <NocustContext.Provider value={useMemo(() => [state, { updateNocust, updateEra, updateIsRecovery, updateSlaDetail }], [state, updateNocust, updateEra, updateIsRecovery, updateSlaDetail])}>

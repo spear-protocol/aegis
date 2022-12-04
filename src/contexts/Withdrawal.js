@@ -117,7 +117,7 @@ export function useWithdrawalFee (gasPrice, privateKey) {
 
 export function useWithdrawalLimit (address, tokenAddress, privateKey) {
   //const nocust = useNocustClient()
-  const eraNumber = useEraNumber()
+  //const eraNumber = useEraNumber()
   const [state, { updateLimit }] = useWithdrawalContext()
   const { withdrawalLimit } = safeAccess(state, [address, tokenAddress]) || {}
 
@@ -146,7 +146,7 @@ export function useWithdrawalLimit (address, tokenAddress, privateKey) {
       
       checkWithdrawLimit();
     }
-  }, [address, tokenAddress, eraNumber])
+  }, [address, tokenAddress])
 
   return withdrawalLimit
 }
@@ -162,7 +162,7 @@ export function useBlocksToWithdrawal (address, tokenAddress) {
       // this now gets called when the component unmounts
     };
   }, []);
-  const eraNumber = useEraNumber()
+  //const eraNumber = useEraNumber()
   const [state, { updateBlocks }] = useWithdrawalContext()
   const { blocksToWithdrawal } = safeAccess(state, [address, tokenAddress]) || {}
 
@@ -176,7 +176,7 @@ export function useBlocksToWithdrawal (address, tokenAddress) {
           updateBlocks(address, tokenAddress, undefined)
         })
     }
-  }, [address, tokenAddress, eraNumber])
+  }, [address, tokenAddress])
 
   return blocksToWithdrawal
 }
@@ -193,7 +193,7 @@ export function useAllBlocksToWithdrawal (address, privateKey, txhash) {
     };
   }, []);
 
-  const eraNumber = useEraNumber()
+  //const eraNumber = useEraNumber()
   const tokens = useTokens(privateKey)
   const [state, { updateBlocks }] = useWithdrawalContext()
   const withdrawalObject = safeAccess(state, [address]) || {}
@@ -214,7 +214,7 @@ export function useAllBlocksToWithdrawal (address, privateKey, txhash) {
           console.log("I'm in a bother")
         })
     }
-  }, [address, eraNumber])
+  }, [address])
 
   return Object.entries(withdrawalObject).reduce((accumulator, [tokenAddress, { blocksToWithdrawal }]) => {
     accumulator[tokenAddress] = blocksToWithdrawal
