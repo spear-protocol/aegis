@@ -49,7 +49,7 @@ export default function Provider ({ children }) {
 
 export function useTokenTransactions (address, tokenAddress) {
   //const nocust = useNocustClient()
-  const eraNumber = useEraNumber()
+  //const eraNumber = useEraNumber()
   const [state, { update }] = useTransactionContext()
   const transactions = safeAccess(state, [address, tokenAddress]) || []
 
@@ -69,7 +69,7 @@ export function useTokenTransactions (address, tokenAddress) {
           update(address, tokenAddress, [])
         })
     }
-  }, [address, tokenAddress, eraNumber])
+  }, [address, tokenAddress])
 
   return transactions
 }

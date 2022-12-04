@@ -37,7 +37,7 @@ export default (props) => {
   //const nocust = useNocustClient()
 
   const buttonStyle = useButtonStyle()
-  const txhash = confirmWithdrawal(props.address, props.gwei, tokenAddress, props.privateKey)
+/*   const txhash = confirmWithdrawal(props.address, props.gwei, tokenAddress, props.privateKey)
   const { tokenAddress, blocksToWithdrawal } = getNextAvailableConfirmation(props.address, props.privateKey, txhash)
   // console.log('NEXT CONFIRMATION', tokenAddress, blocksToWithdrawal)
   const timeToWithdrawal = humanizeDuration(BLOCK_TIME * blocksToWithdrawal, { largest: 2, units: ['h', 'm', 's'] })
@@ -57,11 +57,11 @@ export default (props) => {
         </div>
       </div>
     )
-  }
+  } */
 
   return (
     <div>
-      {withdrawalButton}
+      {/* {withdrawalButton} */}
       <div className='content ops row'>
         <div className='col-12 p-1'>
           <button className='btn btn-large w-100' style={buttonStyle.primary}>

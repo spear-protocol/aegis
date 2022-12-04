@@ -99,7 +99,7 @@ export function useOffchainAddressBalance (address, tokenAddress, privateKey) {
     };
   }, []);
 
-  const eraNumber = useEraNumber()
+  //const eraNumber = useEraNumber()
 
   const [state, { updateOffchain }] = useBalanceContext()
   const { offchainBalance } = safeAccess(state, [address, tokenAddress]) || ZERO_BALANCE
@@ -107,31 +107,23 @@ export function useOffchainAddressBalance (address, tokenAddress, privateKey) {
   useEffect(() => {
     if (
       isAddress(address) &&
-      isAddress(tokenAddress) &&
-      nocust
+      isAddress(tokenAddress)
     ) {
       console.log('Getting offchain balance')
-      async function getNOCUSTBalance() {
-        const offChainBalance = await nocust.getBalance(address, tokenAddress)
-        console.log('offchainBalance', offChainBalance)
-        return offChainBalance
-      }
 
       async function getOffchainBalance() {
-        const offChainBalance = await getNOCUSTBalance()
-        //console.log('tokenBalance3', walletBalance)
-        offChainBalance.then(offChainBalance => {
+        try {
+          const offChainBalance = await nocust.getBalance(address, tokenAddress)
           updateOffchain(address, tokenAddress, offChainBalance)
-        })
-        .catch(err => {
+        } catch (err) {
           console.error(err)
           updateOffchain(address, tokenAddress, ZERO_BALANCE)
-        })
       }
 
       getOffchainBalance()
+      }
     }
-  }, [address, tokenAddress, eraNumber])
+  }, [address, tokenAddress])
 
   return offchainBalance
 }
@@ -148,7 +140,7 @@ export function useOnchainAddressBalance (address, tokenAddress, privateKey) {
     };
   }, []);
 
-  const eraNumber = useEraNumber()
+  //const eraNumber = useEraNumber()
 
   const [state, { updateOnchain }] = useBalanceContext()
   const { OnChainBalance } = safeAccess(state, [address, tokenAddress]) || ZERO_BALANCE
@@ -167,7 +159,7 @@ export function useOnchainAddressBalance (address, tokenAddress, privateKey) {
 
       getParentChainBalance()
     }
-  }, [address, tokenAddress, eraNumber])
+  }, [address, tokenAddress])
 
   return OnChainBalance
 }
@@ -187,7 +179,7 @@ export function getDisplayValue (value, decimals = 4) {
 
 export function useAddressBalance (address, tokenAddress, privateKey) {
 
-  const eraNumber = useEraNumber()
+  //const eraNumber = useEraNumber()
   const [state, { update }] = useBalanceContext()
   const tokenBalance = safeAccess(state, [address, tokenAddress]) || ZERO_BALANCE
 
@@ -219,7 +211,7 @@ export function useAddressBalance (address, tokenAddress, privateKey) {
       
       getWalletBalance();
     }
-  }, [address, tokenAddress, eraNumber])
+  }, [address, tokenAddress])
 
   //console.log('tokenBalance4', tokenBalance)
   return tokenBalance

@@ -60,7 +60,7 @@ function buildTokenDict (tokenList) {
 
 export function useTokens (privateKey) {
 
-  const eraNumber = useEraNumber()
+  //onst eraNumber = useEraNumber()
 
   const [state, { update }] = useTokensContext()
   const { tokens } = state
@@ -88,7 +88,7 @@ export function useTokens (privateKey) {
 
     fetchTokens()
 
-  }, [eraNumber])
+  }, [])
 
   return tokens
 }
