@@ -7,6 +7,8 @@ import i18n from '../i18n'
 import AddressBar from './AddressBar'
 import AmountBar from './AmountBar'
 import { ensLookup, reverseEnsLookup } from '../utils/ens'
+import { nocust } from 'nocust-client'
+import web3 from 'web3'
 
 const { toWei, fromWei, toBN, isAddress } = require('web3-utils')
 
@@ -25,29 +27,50 @@ function clearCookies () {
 }
 
 function canSend (toAddress, amount, balance) {
+  console.log('canSend toAddress', toAddress)
+  console.log('canSend toAddress', typeof(toAddress))
+  console.log('canSend amount', amount)
+  console.log('canSend amount', typeof(amount))
+  console.log('canSend balance', balance)
+  console.log('canSend balance', typeof(balance))
   if (typeof amount !== 'string' || amount === '') return false
-  const amountWei = toBN(toWei(amount, 'ether'))
+  //const amountWei = toBN(toWei(amount, 'ether'))
+  const amountWei = web3.utils.toBN(web3.utils.toWei(amount,'ether'))
   return (isAddress(toAddress) &&
-          amountWei.gte(toBN('0')) &&
-          toBN(balance).gte(amountWei))
+          amountWei.gte(web3.utils.toBN('0')) &&
+          web3.utils.toBN(web3.utils.toWei(balance.toString())).gte(amountWei))
 }
 
-async function attemptSend (address, token, offchainBalance, sendTransaction, toAddress, amount) {
+async function attemptSend (address, privateKey, token, offchainBalance, sendTransaction, toAddress, amount) {
+  console.log('attemptSend address', address)
+  console.log('attemptSend offchainBalance', offchainBalance)
+  console.log('attemptSend toAddress', toAddress)
   if (canSend(toAddress, amount, offchainBalance)) {
-    const transaction = {
-      to: toAddress,
-      from: address,
-      amount: toBN(toWei(amount, 'ether')).toString(10),
-      tokenAddress: token.tokenAddress
+    const nocustTransfer = async () => {
+      await nocust.init({
+        contractAddress: process.env.REACT_APP_HUB_CONTRACT_ADDRESS,
+        rpcUrl: process.env.REACT_APP_WEB3_PROVIDER,
+        operatorUrl: process.env.REACT_APP_HUB_API_URL
+      });
+      console.log('privateKey', privateKey)
+      await nocust.addPrivateKey(privateKey);
+      //console.log("Private key added");
+
+      try {
+        const txId = await nocust.transfer({
+          to: toAddress,
+          amount: amount,
+          from: address,
+          token: token
+        });
+        return { type: 'success', message: txId }
+      } catch (e) {
+        return { type: 'danger', message: 'Transaction Failed - Is this account registered with the hub?' }
+      }
     }
 
-    try {
-      console.log(transaction)
-      const txId = await sendTransaction(transaction)
-      return { type: 'success', message: txId }
-    } catch (e) {
-      return { type: 'danger', message: 'Transaction Failed - Is this account registered with the hub?' }
-    }
+    nocustTransfer()
+
   } else if (toBN(offchainBalance.toString(10)).lt(toBN(toWei(amount, 'ether')))) {
     return { type: 'warning', message: 'Not enough funds' }
   } else {
@@ -65,7 +88,7 @@ export default class SendToAddress extends React.Component {
       ensName: ''
     }
 
-    this.attemptSend = (toAddress, amount) => attemptSend(this.props.address, this.props.token, this.props.offchainBalance, this.props.sendTransaction, toAddress, amount)
+    this.attemptSend = (toAddress, amount) => attemptSend(this.props.address, this.props.privateKey, this.props.token, this.props.offchainBalance, this.props.sendTransaction, toAddress, amount)
   }
 
   async updateENSOrAddress (value) {

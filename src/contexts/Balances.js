@@ -120,8 +120,8 @@ export function useOffchainAddressBalance (address, tokenAddress, privateKey) {
           updateOffchain(address, tokenAddress, ZERO_BALANCE)
       }
 
-      getOffchainBalance()
       }
+      getOffchainBalance()
     }
   }, [address, tokenAddress])
 

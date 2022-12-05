@@ -49,6 +49,10 @@ export default (props) => {
   const toAddress = typeof props.location.state !== 'undefined' ? props.location.state.toAddress : undefined
   const tokenAmount = typeof query.amount === 'string' ? fromWei(query.amount, 'ether') : undefined
 
+  console.log('SendPage token', token)
+  console.log('SendPage tokenBalance', tokenBalance)
+  console.log('SendPage toAddress', toAddress)
+
   return (
     <div>
       <div className='send-to-address card w-100' style={{ zIndex: 1 }}>
@@ -64,17 +68,18 @@ export default (props) => {
         <Ruler />
         <SendToAddress
           token={token}
-          sendTransaction={(tx) => nocust.sendTransaction(tx)}
+          sendTransaction={(tx) => nocust.transfer(tx)}
           toAddress={toAddress}
           amount={tokenAmount}
           ensLookup={props.ensLookup}
           buttonStyle={buttonStyle}
           offchainBalance={tokenBalance}
           address={props.address}
+          privateKey={props.privateKey}
           changeAlert={props.changeAlert}
           onSend={async (txhash) => {
             props.history.push(`${props.url}/sending`)
-            const tx = await nocust.getTransaction(await txhash)
+            const tx = await nocust.getTransfer(await txhash)
             console.log(tx)
           }}
         />
