@@ -37,9 +37,9 @@ Drawbacks:
 
 NOCUST whitepaper: https://eprint.iacr.org/2018/642.pdf
 
-# Aegis USD
+# RTokens x NOCUST
 
-Solves the problems associated with NOCUST. 
+RTokens unleashes the potential of the NOCUST concept by improving the project tokenomics and wrapping DeFi into stablecoins circumventing the need for the L2 EVM. This provides a better user experience through fast and cheap transactions and by preserving composability on L1. 
 
 # SPEAR Labs Team
 
