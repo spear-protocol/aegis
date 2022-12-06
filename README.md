@@ -10,7 +10,7 @@ We envision a world where no one is unbanked and where anyone can participate in
 
 Aegis has two main components:
 
-1. Aegis Commit-chain - A chain of commits to the NOCUST smart contracts on Ethereum by centralized but trustless operators running the SPEAR Hub software. The operators facilitate gas-less transactions off-chain without taking custody of user funds. 
+1. Aegis Commit-chain - A chain of commits to the NOCUST smart contracts on Ethereum by centralized but trustless operators running the Aegis Hub server. The operators facilitate gas-less transactions off-chain without taking custody of user funds. 
 
 2. Aegis USD (AUSD) stablecoin - an RToken that is designed to protect the funds of normal users who we envisage to be regular everyday people through collateral diversity and collateral default insurance. The fees for transacting on Aegis will be paid using AUSD.
 
@@ -37,9 +37,9 @@ Drawbacks:
 
 NOCUST whitepaper: https://eprint.iacr.org/2018/642.pdf
 
-# Aegis USD
+# RTokens x NOCUST
 
-Solves the problems associated with NOCUST. 
+RTokens unleashes the potential of the NOCUST concept by improving the project tokenomics and wrapping DeFi into stablecoins circumventing the need for the L2 EVM. This provides a better user experience through fast and cheap transactions and by preserving composability on L1. 
 
 # SPEAR Labs Team
 
