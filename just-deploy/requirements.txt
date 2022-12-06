@@ -1,0 +1,4 @@
+web3>=5.0
+eth-abi
+bitcoin==1.1.42
+ecdsa==0.13

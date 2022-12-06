@@ -1,0 +1,213 @@
+version: "3.4"
+
+volumes:
+  pg-data:
+  eth-data:
+  static-files:
+  audit-cache:
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=liquidity
+      - POSTGRES_PASSWORD=liquidity
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+
+  cache:
+    image: redis:5
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf:ro
+    command: redis-server /usr/local/etc/redis/redis.conf
+
+  operator_api:
+    build:
+        context: .
+        target: dev_build
+    image: local-hub-build
+    restart: always
+    command: ./runserver.sh
+    environment:
+      - POSTGRES_SERVER_HOST=db
+      - POSTGRES_SERVER_PORT=5432
+      - CACHE_REDIS_HOST=cache
+      - CACHE_REDIS_PORT=6379
+      - RUNNING_IN_PRODUCTION=false
+      - RUN_STARTUP_TASKS=false
+      - SWAPS_ENABLED=true
+      - ALLOWED_HOSTS=localhost
+      - CORS_ORIGIN_WHITELIST
+      - CORS_ORIGIN_ALLOW_ALL=true
+      - DISABLE_REGISTRATION_VERIFICATION=true
+      - DISABLE_REGISTRATION_THROTTLE=true
+      - MATCHING_IP_WHITELIST
+      - ENABLE_PROFILING=true
+      - OPERATOR_API_HOST=operator_api
+      - OPERATOR_API_PORT=3031
+      - PRIV_KEY=4f3edf983ac636a65a842ce7c78d9aa706d3b113bce9c46f30d7d21715b23b1d
+      - RPC=http://eth:8545
+      - RPC_HOST=eth:8545
+    depends_on:
+      - eth
+      - db
+      - cache
+    volumes:
+      - static-files:/code/static
+      - ../just-deploy/contracts/ethereum-hub-contract-9-dev.json:/code/hub.json:ro
+      - ../just-deploy/contracts/ethereum-token-contract-1:/code/token.bc:ro       
+
+  web:
+    image: nginx
+    restart: always
+    ports:
+      - 8123:80
+    links:
+      - operator_api
+    environment:
+      - ALLOWED_HOSTS=localhost
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf.template:ro
+      - ./nginx_run.sh:/nginx_run.sh:ro
+      - static-files:/var/www/operator_api/static:ro
+      - audit-cache:/var/www/operator_api/cache:ro
+    command: /bin/bash /nginx_run.sh
+
+  accounting_worker:
+    image: local-hub-build
+    restart: always
+    command: ./celeryworker_accounting.sh
+    environment:
+      - POSTGRES_SERVER_HOST=db
+      - POSTGRES_SERVER_PORT=5432
+      - HUB_ETHEREUM_NODE_URL=http://eth:8545
+      - HUB_ETHEREUM_NETWORK_IS_POA=true
+      - CACHE_REDIS_HOST=cache
+      - CACHE_REDIS_PORT=6379
+      - RUN_STARTUP_TASKS=false
+      - SWAPS_ENABLED=true
+      - OPERATOR_API_HOST=operator_api
+      - OPERATOR_API_PORT=3031
+    depends_on:
+      - db
+      - cache
+      - operator_api
+
+  verifier_worker:
+    image: local-hub-build
+    restart: always
+    command: ./celeryworker_verifier.sh
+    environment:
+      - POSTGRES_SERVER_HOST=db
+      - POSTGRES_SERVER_PORT=5432
+      - HUB_ETHEREUM_NODE_URL=http://eth:8545
+      - HUB_ETHEREUM_NETWORK_IS_POA=true
+      - CACHE_REDIS_HOST=cache
+      - CACHE_REDIS_PORT=6379
+      - RUN_STARTUP_TASKS=false
+      - SWAPS_ENABLED=true
+      - OPERATOR_API_HOST=operator_api
+      - OPERATOR_API_PORT=3031
+    depends_on:
+      - db
+      - cache
+      - operator_api
+
+  chain_worker:
+    image: local-hub-build
+    restart: always
+    command: ./celeryworker_chain.sh
+    environment:
+      - POSTGRES_SERVER_HOST=db
+      - POSTGRES_SERVER_PORT=5432
+      - HUB_ETHEREUM_NODE_URL=http://eth:8545
+      - HUB_ETHEREUM_NETWORK_IS_POA=true
+      - CACHE_REDIS_HOST=cache
+      - CACHE_REDIS_PORT=6379
+      - RUN_STARTUP_TASKS=false
+      - OPERATOR_API_HOST=operator_api
+      - OPERATOR_API_PORT=3031
+    depends_on:
+      - db
+      - cache
+      - operator_api
+
+  audit_worker:
+    image: local-hub-build
+    restart: always
+    command: ./celeryworker_audit.sh
+    environment:
+      - POSTGRES_SERVER_HOST=db
+      - POSTGRES_SERVER_PORT=5432
+      - HUB_ETHEREUM_NODE_URL=http://eth:8545
+      - HUB_ETHEREUM_NETWORK_IS_POA=true
+      - CACHE_REDIS_HOST=cache
+      - CACHE_REDIS_PORT=6379
+      - RUN_STARTUP_TASKS=false
+      - NOTIFICATION_HOOK_URL
+      - OPERATOR_API_HOST=operator_api
+      - OPERATOR_API_PORT=3031
+    volumes:
+      - audit-cache:/audit_data_cache
+    depends_on:
+      - db
+      - cache
+      - operator_api
+
+  eth:
+    build:
+      context: .
+      dockerfile: ./poa-node/Dockerfile
+    user: parity
+    volumes:
+      - ./poa-node/spec.json:/home/parity/spec.json:ro
+      - ./poa-node/password:/home/parity/password:ro
+      - ./poa-node/authority.toml:/home/parity/authority.toml:ro
+      - ./poa-node/TestNetChain:/home/parity/data/keys/TestNetChain
+      - ./poa-node/key.priv:/home/parity/data/network/key
+      - eth-data:/home/parity/data
+    command: --chain /home/parity/spec.json --config /home/parity/authority.toml -d /home/parity/data
+    ports:
+      - 8545:8545
+
+  scheduler:
+    image: local-hub-build
+    restart: always
+    command: ./celerybeat.sh
+    environment:
+      - POSTGRES_SERVER_HOST=db
+      - POSTGRES_SERVER_PORT=5432
+      - CACHE_REDIS_HOST=cache
+      - CACHE_REDIS_PORT=6379
+      - RUN_STARTUP_TASKS=true
+      - OPERATOR_API_HOST=operator_api
+      - OPERATOR_API_PORT=3031
+      - RUNNING_IN_PRODUCTION=false
+      - HUB_ETHEREUM_NETWORK_IS_POA=true
+    depends_on:
+      - db
+      - cache
+      - operator_api
+      - accounting_worker
+      - chain_worker
+      - verifier_worker
+      - audit_worker
+
+  just_deploy:
+    build: ./just-deploy/
+    environment:
+      - PRIV_KEY=4f3edf983ac636a65a842ce7c78d9aa706d3b113bce9c46f30d7d21715b23b1d
+      - RPC=http://eth:8545
+      - RPC_HOST=eth:8545
+      - BLOCK_TIME=2
+    volumes:
+      - ./just-deploy/contracts/ethereum-hub-contract-9-dev.json:/code/hub.json:ro
+      - ./just-deploy/contracts/ethereum-token-contract-1:/code/token.bc:ro
+    depends_on:
+      - eth

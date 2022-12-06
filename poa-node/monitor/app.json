@@ -1,0 +1,23 @@
+[
+  {
+    "name"              : "eth",
+    "script"            : "app.js",
+    "log_date_format"   : "YYYY-MM-DD HH:mm Z",
+    "merge_logs"        : false,
+    "watch"             : true,
+    "max_restarts"      : 10,
+    "exec_interpreter"  : "node",
+    "exec_mode"         : "fork_mode",
+    "env":
+    {
+      "NODE_ENV"        : "production",
+      "RPC_HOST"        : "eth",
+      "RPC_PORT"        : "8545",
+      "LISTENING_PORT"  : "30303",
+      "INSTANCE_NAME"   : "eth",
+      "WS_SERVER"       : "ws://eth_dashboard:3000",
+      "WS_SECRET"       : "OurDashSecret93%",
+      "VERBOSITY"       : 3
+    }
+  }
+]

@@ -1,0 +1,31 @@
+[parity]
+chain = "/home/parity/chain.json"
+
+[footprint]
+pruning = "archive"
+
+[account]
+password = ["/home/parity/password"]
+
+# [network]
+# reserved_peers = "/home/parity/reserved_peers"
+
+[rpc]
+interface = "0.0.0.0"
+cors = ["all"]
+hosts = ["all"]
+apis = ["web3", "eth", "net", "parity", "traces", "rpc", "personal", "parity_accounts", "signer", "parity_set"]
+
+[mining]
+reseal_on_txs = "none"
+engine_signer = "0x72f3e399d4fd872a63baf247dba905bc8749765d"
+force_sealing = true
+
+
+[websockets]
+disable = false
+port = 8546
+interface = "all"
+origins = ["http://127.0.0.1:8180"]
+apis = ["web3", "eth", "net", "parity", "traces", "rpc", "secretstore"]
+hosts = ["all"]

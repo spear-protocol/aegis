@@ -1,0 +1,38 @@
+version: "3.4"
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=liquidity
+      - POSTGRES_PASSWORD=liquidity
+    logging:
+      driver: none
+
+  cache:
+    image: redis:5
+    restart: always
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf:ro
+    command: redis-server /usr/local/etc/redis/redis.conf
+    logging:
+      driver: none
+
+  test:
+    build:
+        context: .
+        target: test_build
+    command: pytest -v -x 
+    environment:
+      - POSTGRES_SERVER_HOST=db
+      - POSTGRES_SERVER_PORT=5432
+      - CACHE_REDIS_HOST=cache
+      - CACHE_REDIS_PORT=6379
+      - RUN_STARTUP_TASKS=true
+    volumes:    
+      - ../just-deploy/contracts/ethereum-hub-contract-9-dev.json:/code/hub.json:ro
+      - ../just-deploy/contracts/ethereum-token-contract-1:/code/token.bc:ro       
+    depends_on:
+      - db
+      - cache

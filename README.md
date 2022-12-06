@@ -1,88 +1,243 @@
-<p align="center"> 
-  <img src="src/images/liquidity.png" alt="drawing" width="200"/>
-</p>
+# NOCUST-server
 
-🔥 The [Liquidity Burner Wallet](https://rinkeby.tomfren.ch) is a quick web wallet used to move small amounts of crypto quickly. On page load an Ethereum keypair is automatically generated and used to sign transactions with an incredibly simple interface. Sending funds is as easy as a QR code scan.
+This will guide you through the server's code.
 
-🌊 Liquidity Burner Wallet is similar to the Burner Wallet but rather than using the relatively centralised xDai sidechain, it instead allows free near-instant transactions on the [Liquidity Network](https://liquidity.network/) NOCUST commit chain. This means that your funds are secured by the main Ethereum network in a non-custodial fashion. The very small number of validators of the xDai chain (currently only 11!) can lock your funds indefinitely if they wanted to. __As it is non-custorial, no matter what happens to Liquidity Network you can always withdraw your money back to the Ethereum mainnet!__
+For detailed endpoint documentation deploy a local development operator using nocust-ensemble and check [Local API documentation](http://localhost:8123/swagger).
 
-💵 Burners are analogous to cash: quick and easy but less secure. You wouldn't stuff thousands of dollars in your pocket on the way out the door at night, don't trust a seed phrase in localstorage with more than you are willing to lose.
-
-🎫 Using [paper wallets](https://github.com/austintgriffith/paper-wallet), [ether.cards](https://ether.cards/), or solidcoins, users can be instantly onboarded into a wallet and have tokens or localcoins to purchase goods or services.
-
-🏠 Don't forget to sweep funds to colder storage when you get home at night and burn your ephemeral keys!
-
-<!---
-💸 Press the `[Request]` button to instantly create a popup point-of-sale system and have a QR code to display in the window of your shop. Patrons can send you funds with [a simple scan in seconds](https://youtu.be/neZeaXAnkAg).
--->
-
-🌉 Press the `[Bridge]` button to move ETH or DAI that you have sent to your burner onto the [NOCUST Hub](https://liquidity.network/).
-
-🏦 Press the `[Exchange]` button to buy fDAI with fETH using the [TEX](https://tex.liquidity.network/).
-
-🗝️ If you would like more permanence, press the `[Advanced]` button and [use a short pass phrase](https://youtu.be/3zAFo-8p_tg?t=48) to seed a keypair. 
-
-✅ All projects should have a 'burner' version of their product. Take simple fundamentals from your app and put them in an easy to access web version before the barriers to entry. Use this to educate your users about your product and incentivize them to take the next step and download your app. 
-
-🙏 Thanks to Austin Griffith, the original creator of the [Burner Wallet](https://github.com/austintgriffith/burner-wallet) which this is based on.
-
-🛠️ If you are interested in contributing development to the Liquidity Burner Wallet, read on...
-
-## Where can I use the Liquidity Burner Wallet?
-
-A number of versions of the Liquidity Burner Wallet are hosted at the links below:
-
-* Mainnet: [burner.tomfren.ch](https://burner.tomfren.ch)
-* Rinkeby testnet: [rinkeby.tomfren.ch](https://rinkeby.tomfren.ch)
-* Limbo testnet: [limbo.tomfren.ch](https://limbo.tomfren.ch)
-
-The [Limbo testnet](https://liquidity-network.gitbook.io/project/#private-test-network) runs a NOCUST hub which runs with a shorter checkpoint round time (6 minutes instead of 36 hours). This allows easier testing of withdrawals as two checkpoints need to pass before funds become available on the blockchain.
-
-## Installation
-
-A burner wallet is automatically generated upon visiting [burner.tomfren.ch](https://burner.tomfren.ch) and your private key is stored in a cookie so it will be there when you come back. However, if you want to host your own copy of the Liquidity Burner Wallet then a docker image can be downloaded using the command
-
-```bash
-docker pull tomfrench/liquidityburner:latest
+# Deployment
+Clone the repo and its submodules
+```
+git clone --recurse-submodules https://github.com/liquidity-network/nocust-server.git
 ```
 
-An example docker compose file is shown below:
-
-```yaml
-version: "3.2"
-services:
-  burner:
-    image: tomfrench/liquidityburner:latest
-    environment:
-      MAINNET_WEB3_PROVIDER: 'https://mainnet.infura.io/v3/[[APIKEY]]' // Required for ENS resolution
-      WEB3_PROVIDER: 'https://mainnet.infura.io/v3/[[APIKEY]]'
-      HUB_CONTRACT_ADDRESS: '0x83aFD697144408C344ce2271Ce16F33A74b3d98b'
-      HUB_API_URL: 'https://public.liquidity.network/'
-      TOKEN: "DAI"
-    ports:
-      - "80:80"
+### Developpment hub 
+This will create a local POA blockchain running with Parity, deploy the contracts, and start a NOCUST hub. 
+```
+./run.sh
 ```
 
-There are a number of hubs [deployed on various networks](https://liquidity-network.gitbook.io/project/#currently-deployed-nocust-commit-chains) so `WEB3_PROVIDER`, `HUB_CONTRACT_ADDRESS` and `HUB_API_URL` must be set appropriately to interact with the desired hub.
-
-The `TOKEN` environment variable determines which token other than ETH is used within the wallet. This token must be registered by the hub operator for it to be available.
-
-## Contributing
-
-Assuming you have [nodejs](https://nodejs.org/en/download/) and [git](https://git-scm.com/downloads) already installed...
-
-clone the burner wallet repo
+### Production hub
+This is to operate a hub on public an already existing Blockchain (Rinkeby, Kovan, ETH mainnet, etc..). This will require to have a nocust smart-contract manually deployed, See https://github.com/liquidity-network/just-deploy/. You will need to create an `.env` file at the root of the repo with at least the following variables:
 ```
-git clone https://github.com/TomAFrench/liquidity-burner.git
-cd liquidity-burner
+HUB_OWNER_ACCOUNT_ADDRESS=0xXXXXXX
+HUB_OWNER_ACCOUNT_KEY=XXXXXXXX
+HUB_LQD_CONTRACT_ADDRESS=0xXXXXXXXX
+HUB_LQD_CONTRACT_CONFIRMATIONS=20
+SLA_TOKEN_ADDRESS=0xXXXXXXXX
+HUB_ETHEREUM_NODE_URL=YYYYYYY
 ```
 
-install burner:
-```
-npm i
-```
+- `HUB_OWNER_ACCOUNT_ADDRESS` NOCUST hub Operator address with `0x` 
+- `HUB_OWNER_ACCOUNT_KEY` Private key of the operator without `0x` !! Very sensitve !!
+- `HUB_LQD_CONTRACT_ADDRESS` NOCUST contract address
+- `HUB_LQD_CONTRACT_CONFIRMATIONS` amount of blocks, used for confirmation of deposits, withdrawals, etc.. 
+-  `HUB_ETHEREUM_NODE_URL` Http(s) RPC endpoint URL (i.g Infura)
+- `HUB_ETHEREUM_NETWORK_IS_POA` if in local developement you are using POA-networks (Like Rinkeby), then this flag should be set as `True`. For ETH mainnet use `False`
 
-start the app :
+To run the production hub, simply do:
 ```
-npm start
+./run.sh prod
 ```
+### Contract deployment
+`deploy_contract.sh` will ask you about node url, owner address and private key. After that it will create docker container for deployment and return to you address of deployed contract. This address you should put into .env file.
+
+### Contract deployment
+`deploy_contract.sh` will ask you about node url, owner address and private key. After that it will create docker container for deployment and return to you address of deployed contract. This address you should put into .env file.
+
+### Optional notification
+- `NOTIFICATION_HOOK_URL` should be slack notification url, if you want to use notification system
+- `SERVER_NAME` if you have a several servers, but same notification slack channel, please set this variable
+
+### Contract deployment
+`deploy_contract.sh` will ask you about node url, owner address and private key. After that it will create docker container for deployment and return to you address of deployed contract. This address you should put into .env file.
+
+### Optional notification
+- `NOTIFICATION_HOOK_URL` should be slack notification url, if you want to use notification system
+- `SERVER_NAME` if you have a several servers, but same notification slack channel, please set this variable
+
+# Server Architechture
+The server spans 6 different processes, each has it's own function:
+1. [Server](#server)
+2. [Scheduler](#beats)
+3. [Accounting](#accounting)
+4. [Audit](#audit)
+5. [Chain](#chain)
+6. [Verifier](#verifier)
+
+## Server <a name="server"></a>
++ Started using `runserver.sh`
++ Handles HTTP & Websocket connections
++ Handles synchronous business logic
+    - initial swap validation & confirmation found in [swapper](#swapper)
+    - transfer validation & confirmation found in [transactor](#transactor)
+    - admission validation found in [admission](#admission)
+
+## Scheduler <a name="beats"></a>
++ Started using `celerybeat.sh`
++ Handle periodic task scheduling
+    - schedule found in [operator API's celery config file](#operator_api)
+
+## Accounting <a name="accounting"></a>
++ Started using `celeryworker_accounting.sh`
++ Handle off-chain ledger accounting, off-chain confirmation and integrity checks
+    - admission confirmation found in [admission tasks](#admission)
+    - slash bad withdrawals found in [contractor tasks](#contractor)
+    - multi-eon swap confirmation found in [swapper tasks](#swapper)
+    - swap matching found in [swapper matcher](#swapper)
+    - create checkpoint found in [ledger tasks](#ledger)
+
+
+## Audit <a name="audit"></a>
++ Started using `celeryworker_audit.sh`
++ Handle sending out websocket notifications found in [auditor tasks](#auditor) and [synchronizer tasks](#synchronizer)
++ Handle automatic terms of service update found in [tos tasks](#tos)
+
+## Chain <a name="chain"></a>
++ Started using `celeryworker_chain.sh`
++ Handle parsing blocks and other tasks requiring parallelism found in [contractor tasks](#contractor)
+
+## Verifier <a name="verifier"></a>
++ Started using `celeryworker_verifier.sh`
++ Handle tasks involving communication with the smart contract found in [contractor tasks](#contractor)
+    - synchornize contract state
+    - respond to challenges
+    - confirm withdrawals
+    - write queued transactions to the blockchain
+
+
+
+
+
+# Module List
+The server is broken down to 12 functions, logic is grouped into the following 12 modules:
+1. [Operator API](#operator_api)
+2. [Admission](#admission)
+3. [Analytics](#analytics)
+4. [Auditor](#auditor)
+5. [Contractor](#contractor)
+6. [Heartbeat](#heartbeat)
+7. [Ledger](#ledger)
+8. [Leveller](#leveller)
+9. [Swapper](#swapper)
+10. [Synchronizer](#synchronizer)
+11. [Terms of Service](#tos)
+12. [Transactor](#transactor)
+
+
+## Operator_api <a name="operator_api"></a>
+Main Django app module, contains all common server configurations and utilities.
++ periodic-task schedule
++ alert mail client configuration
++ logging configuration
++ all app settings (controlled by environmental variables)
++ base mutex data model
++ base merkle-tree data structures
++ crypto utilities
++ merkle tree hash cache
++ custom swagger schema generation configurations
++ optional performance profiling endpoints
++ auto-generated swagger docs
++ NOCUST simulations (simulate all NOCUST client events & operator processes) 
+
+| Name | Description |
+|------|-------------|
+| BulkManager | utility model used to batch database updates |
+| CleanModel | utility model used to wrap other models with https://docs.djangoproject.com/en/2.2/ref/models/instances/#django.db.models.Model.full_clean |
+| ErrorCode | utility model containing all validation error code constants |
+| ReadWriteLock | utility model to wrap other models with a redis based parallel read, single write lock |
+| MutexModel | utility model to wrap other models with a redis based mutex |
+| MockModel | utility model used to mock arbitrary data models defined at runtime |
+
+## Admission <a name="admission"></a>
+All registration endpoints and registration confirmation background tasks.
+
+## Analytics <a name="analytics"></a>
+Endpoints returning multiple usage metrics eg. transactions, deposits, withdrawals etc.. (you can learn more about this by checking the swagger documentation).
+
+## Auditor <a name="auditor"></a>
+Contains endpoints used to audit the off-chain ledger, as well as all user-facing data serializers.
++ user-facing data serializers
++ endpoints to fetch off-chain ledger data
+
+## Contractor <a name="contractor"></a>
+Contains abstraction layers around the NOCUST smart-contract and everything related to syncing state with the blockchain.
++ smart-contract ABI
++ smart-contract python interface
++ smart-contract event interpreters
++ smart-contract transaction models (including retries)
++ block state parsing
+
+### Models
+| Name | Description |
+|------|-------------|
+| ChallengeEntry | on-chain ledger challenge record |
+| ContractLedgerState | on-chain ledger state for every token including number of withdrawals, deposits and total balance |
+| ContractParameters | on-chain ledger parameters including genesis block, blocks per eon and challenge cost |
+| ContractState | on-chain ledger state snapshot per block, keeps track of whether a checkpoint was submitted or missed, in addition to the number of live challenges  |
+| EthereumTransactionAttempt | on-chain ethereum transaction submission attempt |
+| EthereumTransaction | on-chain ethereym transaction to be submitted |
+
+
+## Heartbeat <a name="heartbeat"></a>
+Bundles together tasks that run periodically, the tasks themselves are defined in other modules.
+
+## Ledger <a name="ledger"></a>
+Contains off-chain ledger models and all the logic required to construct the off-chain ledger (still has some deprecated logic related to active transfers).
++ off-chain ledger data models
++ off-chain ledger database integrity constraints
++ off-chain ledger wallet state construction logic (wallet-transfer context)
+
+### Models
+| Name | Description |
+|------|-------------|
+| ActiveState | off-chain wallet's active state including monotonically increasing spend and gained amounts in addition to the active transaction set hash |
+| Blacklist | wallets forbidden from admitting to the ledger |
+| BlockchainTransaction | base model used in Deposit, WithdrawalRequest and Withdrawal models |
+| Deposit | on-chain deposit |
+| WithdrawalRequest | on-chain withdrawal request |
+| Withdrawal | on-chain confirmed withdrawal |
+| Challenge | on-chain challenge includes a flag to indicate whether this challenge was rebuted |
+| ExclusiveBalanceAllotment | off-chain wallet's allocated balance, including latest merkle proof data, active state, left and righ balance offsets |
+| Matching | off-chain order-pair matching information, including time when the matching happened and the filled amounts of both orders |
+| MinimumAvailableBalance | off-chain commitment made by the wallet's owner to not withdraw more than a specific minimum available amount |
+| RootCommitment | off-chain ledger's merkle root |
+| Signature | off-chain wallet signature |
+| TokenCommitment | off-chain token tree commitment |
+| TokenPair | trading pair whitelist |
+| Token | token model, including address and name |
+| Transaction | base transaction model used in Transfer |
+| Transfer | off-chain transfer & swap model (single table inheritance), including busines logic to read and change transaction's state as well as some data caching fields |
+| Wallet | off-chain wallet model, including some business logic to generate and validate signatures |
+
+## Leveller <a name="leveller"></a>
+Endpoints used to subscribe to the operator's service level agreement.
+
+### Models
+| Name | Description |
+|------|-------------|
+| Agreement | service level agreement subscription |
+
+## Swapper <a name="swapper"></a>
+Endpoints used to make, match and manage swaps.
++ swap endpoints
++ swap matching algorithm
++ multi-eon swap support logic
+
+## Synchronizer <a name="synchronizer"></a>
+Websockets notification implementation and docs.
+
+## TOS <a name="tos"></a>
+Endpoints used to sign the operator's terms of service, handles updates to the terms of service automatically.
+
+### Models
+| Name | Description |
+|------|-------------|
+| TOSConfig | terms of service configuration, including terms of service and privacy policy digests, a new record is added automatically whenever the terms of service is updated |
+| TOSSignature | specific wallet's signature of a given terms of service config |
+
+
+## Transactor <a name="transactor"></a>
+Endpoints used to make transactions.
+
+## Disclaimer
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

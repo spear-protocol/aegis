@@ -1,0 +1,273 @@
+version: "3.4"
+
+volumes:
+  pg-data:
+  static-files:
+  audit-cache:
+  logs-api:
+  logs-scheduler:
+  logs-accounting:
+  logs-verifier:
+  logs-chain:
+  logs-audit:
+
+services:
+  #POSTGRES DATABASE
+  db:
+    image: postgres:10
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=liquidity
+      - POSTGRES_PASSWORD=liquidity
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+
+  #REDIS KEY-VALUE STORE
+  cache:
+    image: redis:5
+    restart: always
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf:ro
+    command: redis-server /usr/local/etc/redis/redis.conf
+
+  #DJANGO WEB SERVER
+  operator_api:
+    build:
+        context: .
+        target: prod_build
+    image: local-hub-build
+    restart: unless-stopped
+    command: ./runserver.sh
+    environment:
+      - SERVER_NAME
+      - POSTGRES_SERVER_HOST=db
+      - POSTGRES_SERVER_PORT=5432
+      - CACHE_REDIS_HOST=cache
+      - CACHE_REDIS_PORT=6379
+      - RUNNING_IN_PRODUCTION=true
+      - RUN_STARTUP_TASKS=false
+      - HUB_OWNER_ACCOUNT_ADDRESS
+      - HUB_OWNER_ACCOUNT_KEY
+      - HUB_LQD_CONTRACT_ADDRESS
+      - SLA_TOKEN_ADDRESS
+      - SLA_PRICE
+      - SLA_RECIPIENT_ADDRESS
+      - SLA_THRESHOLD
+      - SWAPS_ENABLED
+      - ALLOWED_HOSTS
+      - CORS_ORIGIN_WHITELIST
+      - CORS_ORIGIN_ALLOW_ALL
+      - DISABLE_REGISTRATION_VERIFICATION=false
+      - NOTIFICATION_HOOK_URL
+      - DISABLE_REGISTRATION_THROTTLE=false
+      - REGISTRATION_THROTTLE_LIMIT_PER_DAY=100
+      - GOOGLE_RECAPTCHA_SECRET_KEY
+      - MATCHING_IP_WHITELIST
+      - ENABLE_PROFILING
+      - OPERATOR_API_HOST=operator_api
+      - OPERATOR_API_PORT=3031
+    depends_on:
+      - db
+      - cache
+    volumes:
+      - static-files:/code/static
+      - .env:/code/.env:ro
+      - logs-api:/var/log/hub
+
+  #NGINX WEB SERVER
+  web:
+    image: nginx
+    restart: unless-stopped
+    ports:
+      - 80:80
+    links:
+      - operator_api
+    environment:
+      - ALLOWED_HOSTS
+    volumes:
+      - ./nginx-prod.conf:/etc/nginx/nginx.conf.template:ro
+      - ./nginx_run.sh:/nginx_run.sh:ro
+      - static-files:/var/www/operator_api/static:ro
+      - audit-cache:/var/www/operator_api/cache:ro
+    command: /bin/bash /nginx_run.sh
+
+  #CELERY TASK SCHEDULER
+  scheduler:
+    image: local-hub-build
+    restart: on-failure
+    command: ./celerybeat.sh
+    environment:
+      - SERVER_NAME
+      - NOTIFICATION_HOOK_URL
+      - POSTGRES_SERVER_HOST=db
+      - POSTGRES_SERVER_PORT=5432
+      - CACHE_REDIS_HOST=cache
+      - CACHE_REDIS_PORT=6379
+      - RUNNING_IN_PRODUCTION=true
+      - RUN_STARTUP_TASKS=true
+      - OPERATOR_API_HOST=operator_api
+      - OPERATOR_API_PORT=3031
+    depends_on:
+      - db
+      - cache
+      - operator_api
+      - accounting_worker
+      - chain_worker
+      - verifier_worker
+      - audit_worker
+    volumes:
+      - logs-scheduler:/var/log/hub
+
+  #CELERY HUB TASK PROCESSOR
+  accounting_worker:
+    image: local-hub-build
+    restart: unless-stopped
+    command: ./celeryworker_accounting.sh
+    environment:
+      - POSTGRES_SERVER_HOST=db
+      - POSTGRES_SERVER_PORT=5432
+      - HUB_OWNER_ACCOUNT_ADDRESS
+      - HUB_OWNER_ACCOUNT_KEY
+      - HUB_LQD_CONTRACT_ADDRESS
+      - HUB_LQD_CONTRACT_CONFIRMATIONS
+      - HUB_ETHEREUM_NODE_URL
+      - HUB_ETHEREUM_NETWORK_IS_POA
+      - CACHE_REDIS_HOST=cache
+      - SERVER_NAME
+      - CACHE_REDIS_PORT=6379
+      - NOTIFICATION_HOOK_URL
+      - RUNNING_IN_PRODUCTION=true
+      - RUN_STARTUP_TASKS=false
+      - HUB_BLOCK_FETCH_TIMEOUT
+      - EMAIL_HOST
+      - EMAIL_PORT
+      - EMAIL_HOST_USER
+      - EMAIL_HOST_PASSWORD
+      - EMAIL_APP_ADDRESS
+      - EMAIL_USE_TLS
+      - SLA_TOKEN_ADDRESS
+      - SLA_PRICE
+      - SLA_RECIPIENT_ADDRESS
+      - SLA_RECIPIENT_KEY
+      - SLA_THRESHOLD
+      - SWAPS_ENABLED
+      - OPERATOR_API_HOST=operator_api
+      - OPERATOR_API_PORT=3031
+    depends_on:
+      - db
+      - cache
+      - operator_api
+    volumes:
+      - logs-accounting:/var/log/hub
+
+  #CELERY HUB SYNC CONTRACT TASK
+  verifier_worker:
+    image: local-hub-build
+    restart: unless-stopped
+    command: ./celeryworker_verifier.sh
+    environment:
+      - POSTGRES_SERVER_HOST=db
+      - POSTGRES_SERVER_PORT=5432
+      - HUB_OWNER_ACCOUNT_ADDRESS
+      - HUB_OWNER_ACCOUNT_KEY
+      - HUB_LQD_CONTRACT_ADDRESS
+      - HUB_LQD_CONTRACT_CONFIRMATIONS
+      - HUB_ETHEREUM_NODE_URL
+      - HUB_ETHEREUM_NETWORK_IS_POA
+      - CACHE_REDIS_HOST=cache
+      - SERVER_NAME
+      - CACHE_REDIS_PORT=6379
+      - RUNNING_IN_PRODUCTION=true
+      - RUN_STARTUP_TASKS=false
+      - HUB_BLOCK_FETCH_TIMEOUT
+      - EMAIL_HOST
+      - EMAIL_PORT
+      - EMAIL_HOST_USER
+      - EMAIL_HOST_PASSWORD
+      - EMAIL_APP_ADDRESS
+      - EMAIL_USE_TLS
+      - NOTIFICATION_HOOK_URL
+      - SLA_TOKEN_ADDRESS
+      - SLA_PRICE
+      - SLA_RECIPIENT_ADDRESS
+      - SLA_RECIPIENT_KEY
+      - SLA_THRESHOLD
+      - SWAPS_ENABLED
+      - OPERATOR_API_HOST=operator_api
+      - OPERATOR_API_PORT=3031
+    depends_on:
+      - db
+      - cache
+      - operator_api
+    volumes:
+      - logs-verifier:/var/log/hub
+
+  #CELERY CHAIN RETRIEVAL TASK PROCESSOR
+  chain_worker:
+    image: local-hub-build
+    restart: unless-stopped
+    command: ./celeryworker_chain.sh
+    environment:
+      - POSTGRES_SERVER_HOST=db
+      - POSTGRES_SERVER_PORT=5432
+      - HUB_OWNER_ACCOUNT_ADDRESS
+      - HUB_LQD_CONTRACT_ADDRESS
+      - HUB_LQD_CONTRACT_CONFIRMATIONS
+      - HUB_ETHEREUM_NODE_URL
+      - HUB_ETHEREUM_NETWORK_IS_POA
+      - CACHE_REDIS_HOST=cache
+      - CACHE_REDIS_PORT=6379
+      - RUNNING_IN_PRODUCTION=true
+      - NOTIFICATION_HOOK_URL
+      - RUN_STARTUP_TASKS=false
+      - HUB_BLOCK_FETCH_TIMEOUT
+      - SERVER_NAME
+      - EMAIL_HOST
+      - EMAIL_PORT
+      - EMAIL_HOST_USER
+      - EMAIL_HOST_PASSWORD
+      - EMAIL_APP_ADDRESS
+      - EMAIL_USE_TLS
+      - OPERATOR_API_HOST=operator_api
+      - OPERATOR_API_PORT=3031
+    depends_on:
+      - db
+      - cache
+      - operator_api
+    volumes:
+      - logs-chain:/var/log/hub
+
+  #CELERY CHAIN RETRIEVAL TASK PROCESSOR
+  audit_worker:
+    image: local-hub-build
+    restart: unless-stopped
+    command: ./celeryworker_audit.sh
+    environment:
+      - POSTGRES_SERVER_HOST=db
+      - POSTGRES_SERVER_PORT=5432
+      - HUB_OWNER_ACCOUNT_ADDRESS
+      - HUB_LQD_CONTRACT_ADDRESS
+      - HUB_LQD_CONTRACT_CONFIRMATIONS
+      - HUB_ETHEREUM_NODE_URL
+      - HUB_ETHEREUM_NETWORK_IS_POA
+      - CACHE_REDIS_HOST=cache
+      - CACHE_REDIS_PORT=6379
+      - RUN_STARTUP_TASKS=false
+      - HUB_BLOCK_FETCH_TIMEOUT
+      - EMAIL_HOST
+      - SERVER_NAME
+      - EMAIL_PORT
+      - EMAIL_HOST_USER
+      - EMAIL_HOST_PASSWORD
+      - EMAIL_APP_ADDRESS
+      - EMAIL_USE_TLS
+      - NOTIFICATION_HOOK_URL
+      - OPERATOR_API_HOST=operator_api
+      - OPERATOR_API_PORT=3031
+    depends_on:
+      - db
+      - cache
+      - operator_api
+    volumes:
+      - audit-cache:/audit_data_cache
+      - logs-audit:/var/log/hub
