@@ -11,20 +11,28 @@ const ALICE_PRIV = "1ffd04918d19225444b628edbcff1414af8010fa91bfb179aec43ac15412
 const BOB_PUB = "0xE075CAdAa054aeF4F02C94a91979ED0ECf45b3A8";
 const BOB_PRIV = "2dad0c5bf3cd0d5757f9e1d4e4e7c1057c39f8f7675ff9a5c2feceaa351af6b9";
 
-const syncWallet = async () => {
-
+const nocustTransfer = async () => {
+  
   await nocust.init({
     contractAddress: '0x799FdefFcf058Da88E2e0bC8ce19412872E3e8D8',
     rpcUrl: 'http://tartarus.spear.technology:7545',
     operatorUrl: 'http://tartarus.spear.technology/'
   });
 
+  // Add BOB & ALICE privatekeys to nocust
   await nocust.addPrivateKey(BOB_PRIV);
   console.log("BOB's private key added");
-
-  const response = await wallet.syncWallet(BOB_PUB);
+  await nocust.addPrivateKey(ALICE_PRIV);
+  console.log("ALICE's private key added");
   
-  console.log('SyncWallet response: ', response);
+  val = 0.1
+
+  const tx = await nocust.transfer({
+    to: ALICE_PUB,
+    amount: web3.utils.toWei(val.toString(),'ether'),
+    from: BOB_PUB
+  });
+  console.log('Transfer to Alice sent ! Transaction ID: ', tx.txId);
 };
 
-syncWallet();
+nocustTransfer();

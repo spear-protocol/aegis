@@ -1,36 +1,31 @@
-const Web3 = require('web3'); // Web3 1.0.0-beta.37 only for now
+const Web3 = require('web3');
 const BigNumber = require('bignumber.js');
 const { nocust } = require('nocust-client');
 
-// Setup web3 with Infura
 const web3 = new Web3(
-  //new Web3.providers.HttpProvider('https://eth-goerli.g.alchemy.com/v2/5iFUzx90jhomMCuozX_1yJoKBtwDug9k')
-  new Web3.providers.HttpProvider('http://192.168.86.33:7545')
+  new Web3.providers.HttpProvider('http://tartarus.spear.technology:7545')
 );
 
-const BOB_PUB = "0x7f23a4868860C09d5363317db2A87038E069DB27";
-const BOB_PRIV = "2dc9d4eaaeb0569da74b67c1185cbe3b023574b0e6c49fdd5877ddd953eb54a9";
-const ALICE_PUB= "0x32FDD7Ef1733074F4a5e309c839768EB2FCDc257";
-const ALICE_PRIV  = "86d5989331b853d1a017b661e27a8a151a258c908fa9bd685efb1fca3774e8a5";
+const ALICE_PUB = "0x1a3AC58344c4945FD23e7FFdd333d78AF6BdC3E8";
+const ALICE_PRIV = "1ffd04918d19225444b628edbcff1414af8010fa91bfb179aec43ac154124308";
+const BOB_PUB = "0xE075CAdAa054aeF4F02C94a91979ED0ECf45b3A8";
+const BOB_PRIV = "2dad0c5bf3cd0d5757f9e1d4e4e7c1057c39f8f7675ff9a5c2feceaa351af6b9";
 
 
 const getwallet = async () => {
 
-  // init nocust client
   await nocust.init({
-    contractAddress: '0xBA89efB1ABAF9FEF31C34E83c3B4683AEED2831D',
-    //rpcUrl: 'https://eth-goerli.g.alchemy.com/v2/5iFUzx90jhomMCuozX_1yJoKBtwDug9k',
-    rpcUrl: 'http://192.168.86.33:7545',
-    operatorUrl: 'http://localhost/'
+    contractAddress: '0x799FdefFcf058Da88E2e0bC8ce19412872E3e8D8',
+    rpcUrl: 'http://tartarus.spear.technology:7545',
+    operatorUrl: 'http://tartarus.spear.technology/'
   });
 
-  // Add BOB & ALICE privatekeys to nocust
   await nocust.addPrivateKey(BOB_PRIV);
   console.log("BOB's private key added");
 
   const response = await nocust.getWallet(BOB_PUB);
   
-  console.log('SyncWallet response: ', response);
+  console.log('GetWallet response: ', response);
 };
 
 getwallet();
