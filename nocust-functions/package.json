@@ -1,7 +1,6 @@
 {
   "name": "test_prod",
   "version": "1.0.0",
-  "description": "",
   "main": "chainbalance.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,5 +11,7 @@
     "bignumber.js": "^9.1.0",
     "nocust-client": "^4.0.0-alpha.5",
     "web3": "^1.8.0"
-  }
+  },
+  "keywords": [],
+  "description": ""
 }

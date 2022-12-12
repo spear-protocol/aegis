@@ -20,11 +20,11 @@ const checkChainBalance = async () => {
     operatorUrl: 'http://tartarus.spear.technology/'
   });
 
-  await nocust.addPrivateKey(ALICE_PRIV);
+  await nocust.addPrivateKey(BOB_PRIV);
   console.log("BOB's private key added");
 
-  const balance = await nocust.getParentChainBalance(ALICE_PUB, '0x549BD80b7666e689b8f28FD554a66dC382E2388F');
-  //const balance = await nocust.getParentChainBalance(ALICE_PUB);
+  //const balance = await nocust.getParentChainBalance(BOB_PUB, '0x292f648702122edA992ccB0e16926dB692E9509E');
+  const balance = await nocust.getParentChainBalance(BOB_PUB);
   console.log(web3.utils.fromWei(balance.toString(10)));
 };
 

@@ -27,4 +27,4 @@ const checkNocustBalance = async () => {
   console.log(web3.utils.fromWei(balance.toString()));
 };
 
-checcheckNocustBalancekBalance();
+checkNocustBalance();
